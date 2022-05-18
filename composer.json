@@ -1,5 +1,5 @@
 {
-	"name": "moxio/sqlite-extended-api",
+	"name": "skydreams/sqlite-extended-api",
 	"type": "library",
 	"description": "Exposes SQLite APIs that are otherwise not available in PHP",
 	"license": "MIT",
