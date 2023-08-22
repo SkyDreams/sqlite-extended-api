@@ -7,7 +7,13 @@ class ConnectionWrapper {
     private \FFI $sqlite3_ffi;
 
     public function __construct() {
-        $this->sqlite3_ffi = \FFI::cdef(file_get_contents(__DIR__ . "/sqlite3.h"), "sqlite3.so");
+        try {
+            $this->sqlite3_ffi = \FFI::cdef(file_get_contents(__DIR__ . "/sqlite3.h"), "sqlite3.so");
+        } catch (\FFI\Exception $e) {
+            // Fallback for when the sqlite3.so extension is not available.
+            // See https://github.com/Moxio/sqlite-extended-api/issues/7
+            $this->sqlite3_ffi = \FFI::cdef(file_get_contents(__DIR__ . "/sqlite3.h"), "libsqlite3.so");
+        }
     }
 
     public function wrapConnection(\FFI\CData $sqlite3_void_pointer): WrappedConnection {
